@@ -16,7 +16,7 @@ def pltplane(display):
     label = ['x', 'y', 'z']
     return(ix, iy, label[ix], label[iy])
 
-def traceplot(data, interval=0.01, display=12):
+def traceplot(data, interval=0.01, display=12, skip=20):
     """
     粒子軌道を時間とともにトレースしながら描画.
 
@@ -24,8 +24,10 @@ def traceplot(data, interval=0.01, display=12):
         data           : testparticleクラスのインスタンス
         interval float : 時間ステップ毎の線画の時間間隔（単位：秒、デフォルトは0.01）
         display  int   : 関数pltplane参照（デフォルトは12）
+        skip int       : スキップするステップ数（描画の時間短縮のため。デフォルトは20）
     """
 
+    # ver. 1
     fig, ax = plt.subplots(1,1)
 
     ix, iy, labelx, labely = pltplane(display)
@@ -33,20 +35,22 @@ def traceplot(data, interval=0.01, display=12):
     xmax = np.max(data.r[:,ix])
     ymin = np.min(data.r[:,iy])
     ymax = np.max(data.r[:,iy])
+
     ax.set_xlim(xmin, xmax)
     ax.set_ylim(ymin, ymax)
     ax.set_xlabel(labelx)
     ax.set_ylabel(labely)
     plt.tight_layout()
 
-    for i in range(data.itmax):
-        #line, = ax.plot(data.r[0:i,ix], data.r[0:i,iy], color='b')
-        point, = ax.plot(data.r[i,ix], data.r[i,iy], color='b', marker='o', markersize=10)
+    for i in range(0, data.itmax, skip):
+        line, = ax.plot(data.r[0:i,ix], data.r[0:i,iy], color='k', linestyle='--')
+        point, = ax.plot(data.r[i,ix], data.r[i,iy], color='k', marker='o', markersize=10)
         plt.pause(interval)
         if i < data.itmax-1:
-            #line.remove()
+            line.remove()
             point.remove()
     ax.plot(data.r[:,ix], data.r[:,iy], color='k', linestyle='--', lw=1)
+    ax.plot(data.r[data.itmax-1, ix], data.r[data.itmax-1, iy], color='k', marker='o', markersize=10)
 
 def orbplot(data, display=12, show_label=True):
     """
