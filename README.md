@@ -56,7 +56,7 @@ import matplotlib.pyplot as plt
 
 #### 4.1 インスタンスの作成
 ```python
-import sim
+import sim, sim.testp, sim.plot
 data = sim.testp.testparticle()
 ```
 
