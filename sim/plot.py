@@ -79,7 +79,7 @@ def traceplot(data, interval=0.01, display=12, skip=20, max_size=6):
     ax.plot(data.r[data.itmax-1, ix], data.r[data.itmax-1, iy], color='k', marker='o', markersize=10)
 
 # ver.2
-def traceplot2(data, interval=100, display=12, skip=20, max_size=6, save=False, filename='trace.mp4', auto_scale=True):
+def traceplot2(data, interval=100, display=12, skip=20, max_size=6, save=False, filename='trace.mp4', auto_scale=True, gif=False):
     """
     粒子軌道を時間とともにトレースしながら描画（動画保存にも対応：要ffmpeg or ImageMagick） 
     保存するファイルはmp4前提、動画GIFにするならani.save(..., write='***')のところをimagemagickにする
@@ -93,6 +93,7 @@ def traceplot2(data, interval=100, display=12, skip=20, max_size=6, save=False, 
         save bool       : ファイルに保存する場合はTrue（デフォルトはFalse〜画面に表示する）
         filename str    : 保存するときのファイル名（デフォルトは'trace.mp4'）
         auto_scale bool : Trueの場合、描画範囲をデータの最大・最小値で定める（Falseの場合、xmin, xmax, ymin, ymaxの入力を促される）
+        gif bool        : Trueの場合、動画GIFで保存する（ファイル名は'trace.gif'）
     """
 
     ix, iy, labelx, labely = pltplane(display)
@@ -127,7 +128,10 @@ def traceplot2(data, interval=100, display=12, skip=20, max_size=6, save=False, 
             point.remove()
     if save:
         ani = animation.ArtistAnimation(fig, ims, interval=interval)
-        ani.save(filename, writer='ffmpeg')
+        if gif:            
+            ani.save('trace.gif', writer='imagemagick')
+        else:
+            ani.save(filename, writer='ffmpeg')
     else:
         ax.plot(data.r[:,ix], data.r[:,iy], color='k', linestyle='--', lw=1)
         ax.plot(data.r[data.itmax-1, ix], data.r[data.itmax-1, iy], color='k', marker='o', markersize=10)
