@@ -23,10 +23,11 @@ def emfld(r, type=0):
         ey = 0.1
     elif type==2: # gradient drift
         b1 = 1.0
-        b2 = 4.0
+        b2 = 3.5
         bx = by = 0.0
         bz = 0.5*(b2-b1)*(r[0]>0)+b1
-        ex = ey = ez = 0.0
+        ex = ez = 0.0
+        ey = 0.0
     elif type==3:
         print('Comment out this line when you use your customized profile')
         # your customization here

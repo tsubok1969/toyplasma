@@ -58,7 +58,6 @@ class testparticle():
         v = vtmp = np.array(self.v0)
         time = 0.0
         for i in trange(self.itmax-1):
-            #rtmp, vtmp = self.RungeKutta(rtmp, vtmp)
             rtmp, vtmp = eng.RungeKutta(self, rtmp, vtmp)
             r = np.append(r, rtmp)
             v = np.append(v, vtmp)

@@ -20,7 +20,7 @@ def eqm(data, r, v):
     rr = v * data.dt
     return(rr, vr)
 
-def RungeKutta(data, r, v):
+def RungeKutta(data, r, v, gravity=False):
     """
     Runge-Kutta法による近似解.
 
