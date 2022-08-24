@@ -43,7 +43,7 @@ $$ \frac{d\mathbf{r}}{dt}=\mathbf{v},\quad \frac{d\mathbf{v}}{dt}=\frac{q}{m}\le
 * `orbplot`：2次元平面内の粒子軌道を描く
 * `traceplot3d`：3次元平面内の粒子軌道を動画としてトレースする
 * `orbplot3d`：3次元平面内の粒子軌道を描く
-* `energycheck`：初期値からの粒子の運動エネルギーの変動（あるいは）を示す
+* `energycheck`：初期値からの粒子の運動エネルギーの変動（または運動エネルギー自体）を示す
 
 の5つです。
 
