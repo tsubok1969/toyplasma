@@ -39,12 +39,13 @@ $$ \frac{d\mathbf{r}}{dt}=\mathbf{v},\quad \frac{d\mathbf{v}}{dt}=\frac{q}{m}\le
 
 計算結果をmatplotlibを用いて図にする作業を簡便化するためのメソッドをまとめています。現時点で用意しているのは、
 
-* `traceplot`：粒子軌道を動画としてトレースする
-* `traceplot2`: （↑動画の保存に対応）
+* `traceplot`：2次元平面内の粒子軌道を動画としてトレースする
 * `orbplot`：2次元平面内の粒子軌道を描く
-* `energycheck`：初期値からの粒子の運動エネルギーの変動を示す
+* `traceplot3d`：3次元平面内の粒子軌道を動画としてトレースする
+* `orbplot3d`：3次元平面内の粒子軌道を描く
+* `energycheck`：初期値からの粒子の運動エネルギーの変動（あるいは）を示す
 
-の3つです。
+の5つです。
 
 
 
@@ -57,8 +58,8 @@ import matplotlib.pyplot as plt
 
 #### 4.1 インスタンスの作成
 ```python
-import sim, sim.testp, sim.plot
-data = sim.testp.testparticle()
+from sim import plot, testp
+data = testp.testparticle()
 ```
 
 として計算用のインスタンス（ここでは`data`）を最初に作成します。引数には
@@ -76,7 +77,7 @@ data = sim.testp.testparticle()
 引数指定例：
 
 ```python
-data = sim.testp.testparticle(dt=0.001, itmax=5000, r0=[1.0, 0.0, 0.0], v0=[0.0, 1.0, 0.0], type=1)
+data = testp.testparticle(dt=0.001, itmax=5000, r0=[1.0, 0.0, 0.0], v0=[0.0, 1.0, 0.0], type=1)
 ```
 
 これらはすべて`data.dt`...で参照され、後から編集して別の計算を行うこともできます。
@@ -110,12 +111,12 @@ plt.plot(data.time, data.v[:,2])
 `plot.py`にあるメソッドを使えば若干タイピングが楽になります（単に自分が楽したいから作っただけ）。粒子軌道については、例えばxy面内であれば
 
 ```python
-sim.plot.orbplot(data, display=12)
+plot.orbplot(data, display=12)
 ```
 でも描くことができます。引数の`display`で平面を指定しますが、x:1, y:2, z:3に対応していて`display=23`とすればyz面内の軌道になります（`traceplot`も同様）。いずれも
 
 ```python
-sim.plot.traceplot2?
+plot.traceplot2?
 ```
 などで詳しく説明してあります。
 
@@ -132,10 +133,11 @@ sim.plot.traceplot2?
 * `orbplot`などで`data`を引数にしているのはクールじゃないとは思いますが、プロット部を本体から分離させたかったのでとりあえず現在の書き方ににとどめています（継承とか使えばいいのかな）。
 * 粒子軌道のトレースについてはもっとスマートな方法もあるのでしょうが、まずは動けばいいという妥協。
 * ~~粒子軌道のトレース動画をファイルとして保存するのはまた今度~~
-* mplot3dを使って、軌道を3次元空間内に描くこともまた今度。
+* ~~mplot3dを使って、軌道を3次元空間内に描くこともまた今度。~~
 * 今は粒子1個の計算ですが、何個くらいまでの計算が実用的かな（そもそもそんな計算にpythonを使うなという話が…）
 * 計算データをHDFファイルに書き出してもいいのですが、pythonなのでpickle化でもいいのかな。
 * Speiser軌道を描いたり、ポアンカレマップを作ったりするところまでは使えますかね。
+* 要は運動方程式を解くだけなので、`engine.py`の`eqm`のところを修正すれば（例えば重力にするとか）大学1年生向け力学の授業で使う資料などを作ることにも使えるかも。
 * もちろん、質問やバグ報告など大歓迎です。
 
 ということで、個人で使うだけの（それもお粗末な）ツールを公開するのもお為ごかしに過ぎませんが、このプラズマの「おもちゃ」で適当に遊んでいただけたら幸いです。
